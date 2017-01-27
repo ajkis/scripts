@@ -1,0 +1,36 @@
+#!/bin/bash
+# Make sure you change paths for mount and log file & create mountchek file.
+# Add script to crontb by typig crontb -e and pasting the line bellow (without # in front )
+# * * * * *  /home/plex/scripts/rclone-mount.cron >/dev/null 2>&1
+
+logfile="/home/plex/logs/rclone-mount.cron.log"
+
+if pidof -o %PPID -x "rclone-mount.cron"; then
+   echo "$(date "+%d.%m.%Y %T") EXIT: rclone-mount.cron already running."
+   exit 1
+fi
+
+if [[ -f "/home/plex/acdcrypt/mountcheck" ]]; then
+   echo "$(date "+%d.%m.%Y %T") INFO: Check successful,acdcrypt mounted." | tee -a "$logfile"
+   exit
+else
+   echo "$(date "+%d.%m.%Y %T") ERROR: Drive not mounted, remount in progress." | tee -a "$logfile"
+   # Unmount before remounting 
+   fusermount -uz /home/plex/acdcrypt/ | tee -a "$logfile"
+   rclone mount \
+       --read-only \
+       --allow-non-empty \
+       --allow-other \
+       --max-read-ahead 14G \
+       --acd-templink-threshold 0 \
+       --checkers 16 \
+       --quiet \
+       --stats 0 \
+       acdcrypt:/ /home/plex/acdcrypt/ &
+  
+   if [[ -f "/home/plex/acdcrypt/mountcheck" ]]; then
+      echo "$(date "+%d.%m.%Y %T") INFO: Remount successful." | tee -a "$logfile"
+   else
+      echo "$(date "+%d.%m.%Y %T") CRITICAL: Remount failed." | tee -a "$logfile"
+   fi
+fi
