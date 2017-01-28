@@ -1,0 +1,26 @@
+# Generate Plex Library stats
+# OS: Ubuntu 16.04 ( change dbpath if using diffrent OS )
+# Output:
+# Library = Movies
+# Minutes = 309559
+#   Hours = 5159
+#    Days = 214
+#
+# Library = TV Shows
+# Minutes = 508526
+#   Hours = 8475
+#    Days = 353
+
+#!/bin/sh
+dbpath="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db"
+query="SELECT Library, Minutes, Hours, Days \
+                        FROM ( SELECT name AS Library, \
+                        SUM(duration)/1000/60 AS Minutes, \
+                        SUM(duration)/1000/60/60 AS Hours, \
+                        SUM(duration)/1000/60/60/24 AS Days \
+                        FROM media_items m \
+                        LEFT JOIN library_sections l ON l.id = m.library_section_id \
+                        WHERE library_section_id > 0 GROUP BY name );"
+
+sqlite3 -header -line "$dbpath" "$query"
+exit
