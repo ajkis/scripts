@@ -1,0 +1,28 @@
+# Rclone mount on boot 
+# Copy file to: /etc/systemd/system
+# Set remote name (current acdcrypt), path to mount and User,Group (current plex)
+# Register new service by typing:
+# sudo systemctl daemon-reload
+# sudo systemctl enable rclone-mount.service
+# systemctl start rclone-mount.service
+# systemctl enable NetworkManager-wait-online.service
+# Usage:
+# To unmount drive use
+# systemctl stop rclone-mount.service
+# To mount use:
+# systemctl start rclone-mount.service
+
+[Unit]
+Description=rclone Amazon Cloud Drive FUSE mount
+Documentation=http://rclone.org/docs/
+After=network-online.target
+
+[Service]
+Type=forking
+User=plex
+Group=plex
+ExecStart= rclone mount --allow-non-empty --allow-other acdcrypt:/ /path/ &
+ExecStop= fusermount -uz /path/
+
+[Install]
+Wants=network-online.target
