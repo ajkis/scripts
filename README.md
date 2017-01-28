@@ -8,3 +8,4 @@ All scripts where tested on Ubuntu 16.04 LTS, and before using them you need to 
 
 ## GUIDES
 [HOW TO: Encrypt files with rclone crypt](https://github.com/ajkis/scripts/issues/1)
+[HOW TO: VirtualBox Alpine Linux + rclone + samba share](https://github.com/ajkis/scripts/issues/2)
