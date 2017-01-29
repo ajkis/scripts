@@ -1,0 +1,14 @@
+# Requirements pv tool ( sudo apt install pv )
+#!/bin/bash
+if pidof -o %PPID -x "copyspeedtest"; then
+   echo "Already running, exiting."
+   exit 1
+fi
+
+SOURCE="/storage/acdcrypt/movies/10 Cloverfield Lane (2016)/10 Cloverfield Lane (2016).mkv"
+DESTINATION="/home/plex/temp/10 Cloverfield Lane (2016).mkv"
+
+echo "Copy in progress "
+echo "|   PROGRESSs   |   RATE   | AVG. RATE |"
+pv --bytes --progress --rate --average-rate --timer --eta "$SOURCE" > "$DESTINATION"
+exit
