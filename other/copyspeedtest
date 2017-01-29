@@ -8,7 +8,7 @@ fi
 SOURCE="/storage/acdcrypt/movies/10 Cloverfield Lane (2016)/10 Cloverfield Lane (2016).mkv"
 DESTINATION="/home/plex/temp/10 Cloverfield Lane (2016).mkv"
 
-echo "Copy Speed Test in progress"
+echo "COPY SPEED TEST START"
 echo "|   PROGRESSs   |   RATE   | AVG. RATE |"
 pv --bytes --progress --rate --average-rate --timer --eta "$SOURCE" > "$DESTINATION"
 exit
