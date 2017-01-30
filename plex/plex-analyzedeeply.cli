@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Will preform deep analyzation only on files that were not processed yet
+# analyzedeeply.cli will preform deep analyzation only on files that were not processed yet
 from subprocess import call
 import os
 import requests
@@ -17,13 +17,13 @@ conn.close()
 print("ANALYZE DEEPLY START")
 print("Number of video files to process: " + str( len(items) ))
 start_time = time.time()
+
 for row in items:
     print ("Processing video id: " + str(row[0]))
     start_row = time.time()
     os.system('LD_LIBRARY_PATH=/usr/lib/plexmediaserver PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support /usr/lib/plexmediaserver/Plex\ Media\ Scanner --analyze-deeply -o ' + str(row[0]))
-    os.system('sleep 2')
     end_row = time.time()
     print ("Video id:" + str(row[0]) + " took {:.2f} seconds to process".format(end_row - start_row))
-    break
+
 end_time = time.time()
 print ("Files proccessed:" + str(row[0]) + " in {:.2f} seconds".format(end_row - start_row))
