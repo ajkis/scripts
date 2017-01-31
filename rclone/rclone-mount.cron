@@ -35,3 +35,4 @@ else
       echo "$(date "+%d.%m.%Y %T") CRITICAL: Remount failed." | tee -a "$logfile"
    fi
 fi
+exit
