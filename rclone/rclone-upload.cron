@@ -1,7 +1,8 @@
+#!/bin/bash
 # RCLONE UPLOAD CRON TAB SCRIPT 
 # Type crontab -e and add line bellow (without # )
 # * * * * * /home/plex/scripts/rclone-upload.cron >/dev/null 2>&1
-#!/bin/bash
+
 if pidof -o %PPID -x "rclone-upload.cron"; then
    exit 1
 fi
