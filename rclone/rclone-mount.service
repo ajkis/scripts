@@ -1,4 +1,4 @@
-# Rclone mount on boot 
+# Rclone mount on boot ( service file template )
 # Copy file to: /etc/systemd/system
 # Set remote name (current acdcrypt), path to mount and User,Group (current plex)
 # Register new service by typing:
