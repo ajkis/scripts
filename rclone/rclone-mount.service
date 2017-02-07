@@ -18,11 +18,11 @@ Documentation=http://rclone.org/docs/
 After=network-online.target
 
 [Service]
-Type=forking
+Type=simple
 User=plex
 Group=plex
-ExecStart= rclone mount --allow-non-empty --allow-other acdcrypt:/ /path/ &
-ExecStop= fusermount -uz /path/
+ExecStart= /usr/bin/rclone mount --allow-non-empty --allow-other acdcrypt:/ /path/
+ExecStop= /usr/bin/fusermount -uz /path/
 
 [Install]
 Wants=network-online.target
