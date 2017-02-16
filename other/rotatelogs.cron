@@ -1,0 +1,26 @@
+#!/bin/bash
+if pidof -o %PPID -x "rotatelogs.cron"; then
+   echo "Already running,exit"
+   exit 1
+fi
+echo "rotatelogs.cron started"
+BACKUPTIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
+LOGFILE=/home/plex/logs/rotatelogs.cron.log
+
+FILES=(
+'/home/plex/logs/mountacdcrypt.log'
+'/home/plex/logs/mountgdrivecrypt.log'
+)
+
+for task in "${FILES[@]}"
+do
+    echo "Checking file site of $task"
+    filesize=$(du -k $task | cut -f 1)
+    if [[ $filesize -ge 100000 ]]; then
+        echo "Compressing $task-$BACKUPTIMESTAMP.tar.gz"
+        tar -cpzf $task-$BACKUPTIMESTAMP.tar.gz $task | tee -a "$LOGFILE"
+        truncate -s 0 $task
+        echo "$(date "+%d.%m.%Y %T") $task compressed & truncated " | tee -a "$LOGFILE"
+    fi
+done
+exit
