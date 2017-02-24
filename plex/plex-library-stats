@@ -1,3 +1,4 @@
+#!/bin/bash
 # Generate Plex Library stats
 # OS: Ubuntu 16.04 ( change dbpath if using diffrent OS )
 # Output:
@@ -27,7 +28,6 @@
 # 0 files missing analyzation info
 # 15491 files missing deep analyzation info.
 
-#!/bin/bash
 logfile="/home/plex/logs/plexstats.log"
 db="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db"
 echo "$(date "+%d.%m.%Y %T") PLEX LIBRARY STATS" | tee -a $logfile
