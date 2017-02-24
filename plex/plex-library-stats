@@ -28,13 +28,10 @@
 # 15491 files missing deep analyzation info.
 
 #!/bin/bash
-if pidof -o %PPID -x "$0"; then
-   exit 1
-fi
 logfile="/home/plex/logs/plexstats.log"
 db="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db"
 echo "$(date "+%d.%m.%Y %T") PLEX LIBRARY STATS" | tee -a $logfile
-echo "Media items in Libraries" | tee -a $logfile                        
+echo "Media items in Libraries" | tee -a $logfile
 query="SELECT Library, Items \
                         FROM ( SELECT name AS Library, \
                         COUNT(duration) AS Items \
@@ -75,8 +72,6 @@ echo "${result:11} metadata_items marked as deleted" | tee -a $logfile
 query="SELECT count(*) FROM directories WHERE deleted_at is not null"
 result=$(sqlite3 -header -line "$db" "$query")
 echo "${result:11} directories marked as deleted" | tee -a $logfile
-
-
 
 query="select count(*) from metadata_items meta \
                         join media_items media on media.metadata_item_id = meta.id \
