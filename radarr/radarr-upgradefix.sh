@@ -19,17 +19,17 @@ ACTUALPATH=/mnt/acdcrypt/
 # LOGFILE LOCATATION
 LOGFILE="/home/plex/logs/radarr-upgradefix.log"
 
-echo "Radarr Event: $radarr_eventtype file: $radarr_moviefile_path" >> "$LOGFILE"
+echo "$(date "+%d.%m.%Y %T") Radarr Event: $radarr_eventtype file: $radarr_moviefile_path" >> "$LOGFILE"
 # Check if movie already exist
 if [[ -f "$radarr_moviefile_path" ]] ; then
 	if [[ REPLACEPATH -eq 1 ]] ; then 
 		radarr_moviefile_path=${radarr_moviefile_path/$REPLACEUFSPATH/$ACTUALPATH}
 	fi
 	if [[ DELETEFOLDER -eq 1 ]] ; then
-		echo "Deleting existing movie folder:" $(dirname "${radarr_moviefile_path}") >> "$LOGFILE"
+		echo "$(date "+%d.%m.%Y %T") Deleting existing movie folder:" $(dirname "${radarr_moviefile_path}") >> "$LOGFILE"
 		rm -rf $(dirname "${radarr_moviefile_path}")
 	else
-		echo "Deleting existing movie file: $radarr_moviefile_path" >> "$LOGFILE"
+		echo "$(date "+%d.%m.%Y %T") Deleting existing movie file: $radarr_moviefile_path" >> "$LOGFILE"
 		rm "$radarr_moviefile_path"
 	fi
 fi
