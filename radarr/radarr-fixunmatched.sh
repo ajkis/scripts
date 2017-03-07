@@ -12,7 +12,7 @@ done
 
 query="SELECT Title from Movies WHERE MovieFileId = '0' AND id IN (SELECT MovieId FROM MovieFiles)"
 result=$(sqlite3 -header -line "$DB" "$query")
-echo "${result:12} Unmatched Movies" | tee -a $LOGFILE
+echo "${result:12} Unmatched Movies"
 
 echo "Applying SQL Update fix"
 sqlite3 -header -line "$DB" "update Movies set MovieFileId = IfNull((select MovieFiles.Id from MovieFiles where MovieFiles.MovieId = Movies.id), 0) where MovieFileId = 0"
