@@ -1,10 +1,10 @@
 # Ajki's rclone &amp; plex scripts 
 Questions and comments can be posted in Issues section.<br>
-If you find scripts usefull you can buy me a beer https://paypal.me/ajki
-BTC Wallet 
-![BTX Wallet](https://puu.sh/uyuTD/8122d4545b.png)
-152Hc4eQbroLnnKMyD4UiijerPCoqeECSF 
-
+If you find scripts usefull you can buy me a beer https://paypal.me/ajki<br>
+BTC Wallet<br> 
+![BTX Wallet](https://puu.sh/uyuTD/8122d4545b.png)<br>
+152Hc4eQbroLnnKMyD4UiijerPCoqeECSF<br>
+<br>
 All scripts where tested on Ubuntu 16.04 LTS, and before using them you need to make them executable by:<br>
 ```chmod a+x /path/scriptname```
 ## WIKI
