@@ -1,0 +1,30 @@
+#!/bin/bash
+## PLEX UPDATE LIBRARY WITH NEWLY UPLOADED MEDIA
+## Default settings 30 minutes.
+## Make script executable by chmod a+x plexupdatenew.cron
+## Add script to crontab ( crontab -e )
+## */30 * * * *   /path to script/plexupdatenew.cron >/dev/null 2>&1
+
+#SETTINGS
+MAXTIME=30 # Folders newer then xx minutes.
+MOVIELIBRARY="/mnt/cloud/movies/"
+MOVIESECTION=2
+TVROOT="/mnt/cloud/series"
+TVSECTION=1
+LOGFILE="/home/plex/logs/plexrefreshnew.cron.log"
+
+if pidof -o %PPID -x "$0"; then
+   echo "$(date "+%d.%m.%Y %T") Exit, already running."
+   exit 1
+fi
+
+export LD_LIBRARY_PATH=/usr/lib/plexmediaserver
+export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support
+
+#UPDATE MOVIES
+find "$MOVIESROOT" -mindepth 1 -type d -cmin -"$MAXTIME" -exec \
+/usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$MOVIESECTION" --directory {} \; | tee -a "$LOGFILE"
+#UPDATE TV SHOWS
+find "$TVSHOWS" -mindepth 2 -type d -cmin -"$MAXTIME" -exec \
+/usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$TVSECTION" --directory {} \; | tee -a "$LOGFILE"
+exit
