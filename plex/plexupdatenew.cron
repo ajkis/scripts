@@ -9,7 +9,7 @@
 MAXTIME=30 # Folders newer then xx minutes.
 MOVIELIBRARY="/mnt/cloud/movies/"
 MOVIESECTION=2
-TVROOT="/mnt/cloud/series"
+TVLIBRARY="/mnt/cloud/series"
 TVSECTION=1
 LOGFILE="/home/plex/logs/plexrefreshnew.cron.log"
 
@@ -22,9 +22,9 @@ export LD_LIBRARY_PATH=/usr/lib/plexmediaserver
 export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support
 
 #UPDATE MOVIES
-find "$MOVIESROOT" -mindepth 1 -type d -cmin -"$MAXTIME" -exec \
+find "$MOVIELIBRARY" -mindepth 1 -type d -cmin -"$MAXTIME" -exec \
 /usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$MOVIESECTION" --directory {} \; | tee -a "$LOGFILE"
 #UPDATE TV SHOWS
-find "$TVSHOWS" -mindepth 2 -type d -cmin -"$MAXTIME" -exec \
+find "$TVLIBRARY" -mindepth 2 -type d -cmin -"$MAXTIME" -exec \
 /usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$TVSECTION" --directory {} \; | tee -a "$LOGFILE"
 exit
