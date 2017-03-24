@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 # Plex analayze all files that are missing analyzation info
 # OS: Ubunti 16.04 ( in case of other OS's make sure to change paths )
-#!/usr/bin/env python3
+
 from subprocess import call
 import os
 import requests
