@@ -8,7 +8,7 @@ if pidof -o %PPID -x "$0"; then
 fi
 LOGFILE="/home/plex/logs/local2acdcrypt.cron.log"
 
-readarray -t UPLOAD < <(find /storage/local/ -mindepth 1  -type f -mmin +15 -not -path '*/\.*' -not -iname '*.partial*') | sort -u
+readarray -t UPLOAD < <(find /storage/local/ -mindepth 1  -type d -mmin +15 -not -path '*/\.*' -not -iname '*.partial*' | sort -uz) 
 if [[ -n $UPLOAD ]]; then
     start=$(date +'%s')
     echo "$(date "+%d.%m.%Y %T") START" | tee -a "$LOGFILE"
@@ -22,7 +22,6 @@ if [[ -n $UPLOAD ]]; then
     do
         if [[  $task == *"/movies/"* ]] || [[ $task == *"/series/"* ]] ; then
             FOLDER="${task/$PATHREPLACE/$REPLACEDPATH}" # Change path from /storage/local/ to /mnt/unionfs
-            FOLDER=$(dirname "${FOLDER}") # Removing file name, leaving full folder path
             echo "Adding to plex.list: $FOLDER" | tee -a "$LOGFILE"        
             echo "$FOLDER" >>/home/plex/.cache/$TimeStamp-plex.list
         fi       
