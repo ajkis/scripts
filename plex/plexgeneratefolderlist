@@ -20,7 +20,7 @@ if [[ -n $UPLOAD ]]; then
 
     for task in "${UPLOAD[@]}"
     do
-        if [[  $task == *"/movies/"* ]] || [[ $task == *"/series/"* ]] ; then
+        if [[  $task == *"/movies/"* ]] || [[ $task == *"/series/"* ]] && [[ $task != "/mnt/unionfs/movies" ]] && [[ $task != "/mnt/unionfs/series" ]] ; then
             FOLDER="${task/$PATHREPLACE/$REPLACEDPATH}" # Change path from /storage/local/ to /mnt/unionfs
             echo "Adding to plex.list: $FOLDER" | tee -a "$LOGFILE"        
             echo "$FOLDER" >>/home/plex/.cache/$TimeStamp-plex.list
