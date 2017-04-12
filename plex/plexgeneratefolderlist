@@ -29,7 +29,7 @@ if [[ -n $UPLOAD ]]; then
         if [[ $mfolder == *"/movies/"* ]] ; then # Change /movies/ to match your path
             MREFRESHFOLDER="${mfolder/$LOCALPATH/$REPLACEDPATH}" # Change path from /storage/local/ to /mnt/unionfs
             echo "Adding to plex.list: $MREFRESHFOLDER" | tee -a "$LOGFILE"
-            echo "$MREFRESHFOLDER" >>/home/plex/.cache/$TimeStamp-plex.list
+            echo "$MREFRESHFOLDER" >>/home/plex/.cache/$TIMESTAMP-plex.list
         fi
     done
     for sfolder in "${SERIESFOLDERS[@]}"
@@ -37,12 +37,12 @@ if [[ -n $UPLOAD ]]; then
         if [[ $sfolder == *"/series/"* ]] ; then # Change /series/ to match your path
             SREFRESHFOLDER="${sfolder/$LOCALPATH/$REPLACEDPATH}" # Change path from /storage/local/ to /mnt/unionfs
             echo "Adding to plex.list: $SREFRESHFOLDER" | tee -a "$LOGFILE"
-            echo "$SREFRESHFOLDER" >>/home/plex/.cache/$TimeStamp-plex.list
+            echo "$SREFRESHFOLDER" >>/home/plex/.cache/$TIMESTAMP-plex.list
         fi
     done
-    if  [[ -f  /home/plex/.cache/$TimeStamp-plex.list ]]; then
-        echo "Uploading: $TimeStamp-plex.list" | tee -a "$LOGFILE"
-        /usr/bin/rclone move /home/plex/.cache/$TimeStamp-plex.list acdcrypt:/tmp/ -v --no-traverse --log-file=$LOGFILE #Change acdcrypt: to match your remote
+    if  [[ -f  /home/plex/.cache/$TIMESTAMP-plex.list ]]; then
+        echo "Uploading: $TIMESTAMP-plex.list" | tee -a "$LOGFILE"
+        /usr/bin/rclone move /home/plex/.cache/$TIMESTAMP-plex.list acdcrypt:/tmp/ -v --no-traverse --log-file=$LOGFILE #Change acdcrypt: to match your remote
     fi
     echo "$(date "+%d.%m.%Y %T") ENDED in $(($(date +'%s') - $start)) seconds" | tee -a "$LOGFILE"
 fi
