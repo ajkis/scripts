@@ -8,7 +8,7 @@
 
 echo "Input items are: ${1}"
 
-PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR='/opt/plexmediaserver/Library/Application Support' LD_LIBRARY_PATH='/usr/lib/plexmediaserver' /usr/lib/plexmediaserver/Plex\ Media\ Scanner \
+PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR='/var/lib/plexmediaserver/Library/Application Support' LD_LIBRARY_PATH='/usr/lib/plexmediaserver' /usr/lib/plexmediaserver/Plex\ Media\ Scanner \
         --verbose \
         --analyze \
         --item ${1}
