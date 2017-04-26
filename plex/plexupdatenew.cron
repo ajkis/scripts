@@ -35,10 +35,9 @@ echo " " | tee -a "$LOGFILE"
 #UPDATE TV SHOWS
 startseries=$(date +'%s')
 echo "Scaning TV at: $TVLIBRARY"
-find "$TVLIBRARY" -mindepth 2 -type d -cnewer $LASTRUNFILE -exec \
+find "$TVLIBRARY" -mindepth 2 -type d -cmin -cnewer $LASTRUNFILE -exec \
 /usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$TVSECTION" --directory {} \; | tee -a "$LOGFILE"
 echo "$(date "+%d.%m.%Y %T") Series scanned in $(($(date +'%s') - $startseries)) seconds" | tee -a "$LOGFILE"
-echo "$(date "+%d.%m.%Y %T") $(basename "$task") Scan completed in $(($(date +'%s') - $start)) seconds" | tee -a "$LOGFILE"
-
+echo "$(date "+%d.%m.%Y %T") Scan completed in $(($(date +'%s') - $start)) seconds" | tee -a "$LOGFILE"
 touch $LASTRUNFILE
 exit
