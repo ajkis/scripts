@@ -28,7 +28,6 @@ start=$(date +'%s')
 startmovies=$(date +'%s')
 echo "Scaning movies at: $MOVIELIBRARY"
 find "$MOVIELIBRARY" -mindepth 1 -type d -cnewer $LASTRUNFILE -exec \
-echo {} \; | tee -a "$LOGFILE"
 /usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$MOVIESECTION" --directory {} \; | tee -a "$LOGFILE"
 echo "$(date "+%d.%m.%Y %T") Movies scanned in $(($(date +'%s') - $startmovies)) seconds" | tee -a "$LOGFILE"
 echo " " | tee -a "$LOGFILE"
