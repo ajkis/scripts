@@ -9,7 +9,7 @@ TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
 LOGFILE="/home/plex/logs/plexrefresh.cron.log"
 UNIONFSPATH="/mnt/unionfs/"
 RCLONEREMOTE="acdcrypt:"
-GETLISTS="find $UNIONFSPATH -type f -iname *.list -mmin +1"
+GETLISTS='find $UNIONFSPATH -type f -iname "*.list" -mmin +1'
 CACHE="/home/plex/.cache/"
 TVSECTION=1
 MOVIESECTION=2
@@ -17,12 +17,11 @@ MOVIESECTION=2
 export LD_LIBRARY_PATH=/usr/lib/plexmediaserver
 export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support
 
+if [[ -n $GETLISTS ]];then
+	exit
+fi
 # MERGE ALL AVAILABLE LISTS
 $GETLISTS -exec cat {} + >> $CACHE/$TIMESTAMP-plex.list
-if [[ ! -s $CACHE/$TIMESTAMP-plex.list ]] ; then
-    rm $CACHE/$TIMESTAMP-plex.list
-    exit
-fi
 # REMOVE DUPLICATE FOLDERS
 sort $CACHE/$TIMESTAMP-plex.list | uniq | tee $CACHE/$TIMESTAMP-plex.list > /dev/null
 
