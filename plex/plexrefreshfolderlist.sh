@@ -7,9 +7,9 @@ if pidof -o %PPID -x "$0"; then
 fi
 TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
 LOGFILE="/home/plex/logs/plexrefresh.cron.log"
-UNIONFSPATH="/mnt/unionfs/"
+UNIONFSPATH="/mnt/unionfs"
 RCLONEREMOTE="acdcrypt:"
-GETLISTS='find $UNIONFSPATH -type f -iname "*.list" -mmin +1'
+PLEXLIST="${UNIONFSPATH}/tmp/ "
 CACHE="/home/plex/.cache/"
 TVSECTION=1
 MOVIESECTION=2
@@ -17,36 +17,36 @@ MOVIESECTION=2
 export LD_LIBRARY_PATH=/usr/lib/plexmediaserver
 export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support
 
-if [[ -n $GETLISTS ]];then
-	exit
+# EXIT IF THERE ARE NO PLEX LIST FILES
+if [[ -z $(find $PLEXLISTPATH -type f -iname "*.list" -mmin +1) ]];then
+    echo "Exit: no lists available"
+    exit
 fi
-# MERGE ALL AVAILABLE LISTS
-$GETLISTS -exec cat {} + >> $CACHE/$TIMESTAMP-plex.list
+# FIND LISTS, MERGE INTO ONE FILE AND DELETE RLONE REMOTE
+find $PLEXLISTPATH -type f -iname "*.list" -mmin +1 |
+while read FILEPATH; do
+    cat $FILEPATH >> ${CACHE}$TIMESTAMP-plex.list
+    FILE=$(basename "${FILEPATH}")
+    /usr/bin/rclone delete $RCLONEPATH2LIST/$FILE
+done
+
 # REMOVE DUPLICATE FOLDERS
 sort $CACHE/$TIMESTAMP-plex.list | uniq | tee $CACHE/$TIMESTAMP-plex.list > /dev/null
 
-# DELETE AVAILABLE LISTS FROM RLONE REMOTE
-readarray -t PLEXLISTS < <($GETLISTS)
-for PLIST in "${PLEXLISTS[@]}"
-do
-    PLIST=$(basename "${PLIST}")
-    /usr/bin/rclone delete $RCLONEREMOTE/tmp/$PLIST
-done
-
 # PLEX SCAN NEW FOLDERS
-readarray -t FOLDERS < $CACHE/$TIMESTAMP-plex.list
+readarray -t FOLDERS < ${CACHE}$TIMESTAMP-plex.list
 for FOLDER in "${FOLDERS[@]}"
 do
     if [[  $FOLDER == *"/movies/"* ]] ; then
         echo "$(date "+%d.%m.%Y %T") Refreshing movie folder: $FOLDER" | tee -a "$LOGFILE"
-        $LD_LIBRARY_PATH/Plex\ Media\ Scanner --scan --refresh --section $MOVIESECTION --directory "${FOLDER}" | tee -a "$LOGFILE"
+        ${LD_LIBRARY_PATH}/Plex\ Media\ Scanner --scan --refresh --section $MOVIESECTION --directory "${FOLDER}" | tee -a "$LOGFILE"
     fi
     if [[  $FOLDER == *"/series/"* ]] ; then
         echo "$(date "+%d.%m.%Y %T") Refreshing serie folder: $FOLDER" | tee -a "$LOGFILE"
-        $LD_LIBRARY_PATH/usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section $TVSECTION --directory "${FOLDER}" | tee -a "$LOGFILE"
+        ${LD_LIBRARY_PATH}/usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section $TVSECTION --directory "${FOLDER}" | tee -a "$LOGFILE"
     fi
 done
 # ADD SUFFIX DONE TO THE FINISHED LIST
 echo "$TIMESTAMP-plex.list.done" | tee -a "$LOGFILE"
-mv $CACHE/$TIMESTAMP-plex.list $CACHE/$TIMESTAMP-plex.list.done
+mv ${CACHE}$TIMESTAMP-plex.list ${CACHE}$TIMESTAMP-plex.list.done
 exit
