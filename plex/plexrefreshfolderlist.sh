@@ -20,6 +20,7 @@ export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Librar
 # MERGE ALL AVAILABLE LISTS
 $GETLISTS -exec cat {} + >> $CACHE/$TIMESTAMP-plex.list
 if [[ ! -s $CACHE/$TIMESTAMP-plex.list ]] ; then
+    rm $CACHE/$TIMESTAMP-plex.list
     exit
 fi
 # REMOVE DUPLICATE FOLDERS
