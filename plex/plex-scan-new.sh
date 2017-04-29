@@ -1,8 +1,9 @@
 #!/bin/bash
-## PLEX UPDATE LIBRARY WITH NEWLY UPLOADED MEDIA
-## Make script executable by chmod a+x plexupdatenew.cron
-## Add script to crontab ( crontab -e )
-## */30 * * * *   /path to script/plexupdatenew.cron >/dev/null 2>&1
+## PLEX SCAN ONLY NEW/MODIFED FOLDERS SINCE LAST RUN
+## OS: Linux Ubuntu 16.04
+## Make script executable by chmod a+x plex-scan-new.sh
+## Add script to crontab -e ( paste the line bellow without ## )
+## */30 * * * *   /path to script/plex-scan-new.sh >/dev/null 2>&1
 if pidof -o %PPID -x "$0"; then
    echo "$(date "+%d.%m.%Y %T") Exit, already running."
    exit 1
@@ -13,7 +14,7 @@ MOVIELIBRARY="/mnt/cloud/movies/"
 MOVIESECTION=2
 TVLIBRARY="/mnt/cloud/series/"
 TVSECTION=1
-LOGFILE="/home/plex/logs/plexrefreshnew.cron.log"
+LOGFILE="/home/plex/logs/plex-scan-new.log"
 FOLDERLISTFILE="/home/plex/.cache/folderlistfile"
 LASTRUNFILE="/home/plex/.cache/lastrunfile"
 
