@@ -27,7 +27,7 @@ find $PLEXLISTPATH -type f -iname "*.list" -mmin +1 |
 while read FILEPATH; do
     cat $FILEPATH >> ${CACHE}$TIMESTAMP-plex.list
     FILE=$(basename "${FILEPATH}")
-    /usr/bin/rclone delete $RCLONEPATH2LIST/$FILE
+    /usr/bin/rclone delete ${RCLONEPATH2LIST}{$FILE}
 done
 
 # REMOVE DUPLICATE FOLDERS
