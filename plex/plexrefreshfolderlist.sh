@@ -19,7 +19,7 @@ export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Librar
 
 # EXIT IF THERE ARE NO PLEX LIST FILES
 if [[ -z $(find $PLEXLISTPATH -type f -iname "*.list" -mmin +1) ]];then
-    echo "Exit: no lists available"
+    echo "Exit: No list available"
     exit
 fi
 # FIND LISTS, MERGE INTO ONE FILE AND DELETE RLONE REMOTE
