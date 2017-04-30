@@ -70,7 +70,7 @@ do
         $LD_LIBRARY_PATH/Plex\ Media\ Scanner --scan --refresh --section "$MOVIESECTION" --directory "$FOLDER" | tee -a "$LOGFILE"
     elif [[  $FOLDER == "$TVLIBRARY"* ]]; then
         echo "$(date "+%d.%m.%Y %T") Plex scan TV folder: $FOLDER" | tee -a "$LOGFILE"
-        $LD_LIBRARY_PATH/usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section "$TVSECTION" --directory "$FOLDER" | tee -a "$LOGFILE"
+        $LD_LIBRARY_PATH/Plex\ Media\ Scanner --scan --refresh --section "$TVSECTION" --directory "$FOLDER" | tee -a "$LOGFILE"
     fi
 done
 echo "$(date "+%d.%m.%Y %T") Plex scan finished in $(($(date +'%s') - $startplexscan)) seconds" | tee -a "$LOGFILE"
