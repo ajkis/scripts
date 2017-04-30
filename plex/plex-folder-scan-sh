@@ -1,0 +1,26 @@
+#!/bin/bash
+## PLEX FOLDER SCAN
+## UPDATE PATHS AND PLEX SECTION
+MOVIELIBRARY="/mnt/cloud/movies/"
+MOVIESECTION=2
+TVLIBRARY="/mnt/cloud/series/"
+TVSECTION=1
+
+export LD_LIBRARY_PATH=/usr/lib/plexmediaserver
+export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support
+
+if [[ -z "$1" ]]; then
+    echo "Usage /path to script/plex-scan-folder.sh /full path/to media/"
+    echo "CURRENT SCRIPT SETTINGS"
+    echo "Movie path: $MOVIELIBRARY | Section: $MOVIESECTION"
+    echo "TV path   : $TVLIBRARY | Section: $TVSECTION"
+    echo "List of Plex Library Sections"
+    $LD_LIBRARY_PATH/Plex\ Media\ Scanner --list
+elif [[ $1 == "$MOVIELIBRARY"* ]]; then
+    $LD_LIBRARY_PATH/Plex\ Media\ Scanner --scan --refresh --section $MOVIESECTION --directory "$1"
+elif [[ $1 == "$TVLIBRARY"* ]]; then
+    $LD_LIBRARY_PATH/Plex\ Media\ Scanner --scan --refresh --section $TVSECTION --directory "$1"
+else
+    echo "$1 does not contain movie or tv path"
+fi
+exit
