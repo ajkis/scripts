@@ -43,7 +43,7 @@ do
     fi
     if [[  $FOLDER == *"/series/"* ]] ; then
         echo "$(date "+%d.%m.%Y %T") Refreshing serie folder: $FOLDER" | tee -a "$LOGFILE"
-        ${LD_LIBRARY_PATH}/usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan --refresh --section $TVSECTION --directory "${FOLDER}" | tee -a "$LOGFILE"
+        ${LD_LIBRARY_PATH}/Plex\ Media\ Scanner --scan --refresh --section $TVSECTION --directory "${FOLDER}" | tee -a "$LOGFILE"
     fi
 done
 # ADD SUFFIX DONE TO THE FINISHED LIST
