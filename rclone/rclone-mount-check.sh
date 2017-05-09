@@ -48,7 +48,7 @@ else
     do
         echo "($wi) Waiting for mount $mount"
         c=$(($c + 1))
-        if [ "$wi" -ge 4 ] ; then break ; fi
+        if [ "$c" -ge 4 ] ; then break ; fi
         sleep 1
     done
     if [[ -f "$MPOINT/$CHECKFILE" ]]; then
