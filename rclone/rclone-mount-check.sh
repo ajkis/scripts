@@ -8,7 +8,7 @@
 LOGFILE="/home/plex/logs/rclone-mount-check.log"
 RCLONEREMOTE="acdcrypt:"
 MPOINT="/home/plex/acdcrypt"
-CHECKFILEPATH="mountcheck"
+CHECKFILE="mountcheck"
 
 if pidof -o %PPID -x "$0"; then
     echo "$(date "+%d.%m.%Y %T") EXIT: Already running." | tee -a "$LOGFILE"
