@@ -21,7 +21,6 @@ else
     echo "Mounting $MPOINT"
     /usr/bin/plexdrive $MPOINT \
                        -o allow_other \
-                       --config=$PLEXDRIVECONF \
                        -v 2 &>>$LOGFILE &
 fi
 exit
