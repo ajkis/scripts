@@ -17,26 +17,27 @@ if pidof -o %PPID -x "$0"; then
    exit 1
 fi
 
-LOG=/home/plex/logs/
+LOG=/home/plex/logs/plexdrivechunks.log
 PLEXDRIVETEMP=/home/plex/.plexdrive/temp
 CURDISKSPACE=$(df -k $PLEXDRIVETEMP | tail -1 | awk '{print $4}')
 MINDISKSPACE=1000000 # SET MINIMUM DISK SPACE WHEN ITS BELLOW THE SCRIPT WILL TRIGGER (1GB = 1000000kB)
 
-
 while [[ $CURDISKSPACE<$MINDISKSPACE ]]
 do
+    CURDISKSPACE=$(df -k $PLEXDRIVETEMP | tail -1 | awk '{print $4}')
     if [[ -z "$nochunk" ]]; then
-        find $PLEXDRIVETEMP -mindepth 1 -mmin +1 | head -n 1 |
+        find $PLEXDRIVETEMP -mindepth 1 -mmin +1 | head -n 10 |
         while read chunk; do
                 if [[ -z "$chunk" ]]; then
-                    echo "chunk empyt: $chunk"
+                    echo "WARNING: Current disk size is ${CURDISKSPACE}kB and bellow ${MINDISKPACE}kB, no chunks available for deletition. EXIT" | tee -a $LOG
                     nochunk=1
                     break
                 fi
-                echo "rm $chunk"
+                echo "Delete: $chunk" | tee -a $LOG
+                rm $chunk
         done
     else
-        echo "EXIT: No chunks match criteria"
+        echo "WARNING: Current disk size is ${CURDISKSPACE}kB and bellow ${MINDISKPACE}kB, no chunks available for deletition. EXIT" | tee -a $LOG
         break
     fi
 done
