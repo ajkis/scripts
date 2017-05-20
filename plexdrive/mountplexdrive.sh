@@ -1,20 +1,26 @@
 #!/bin/bash
 ## plexdrive mount (chmod a+x mountplexdrive.sh)
-## To mount the drive at reboot type crontab -e and add line bellow (without ##):
+## To mount the drive at reboot & to remount in case of failure type crontab -e and add 2 lines bellow (without ##):
 ## @reboot /path/mountplexdrive.sh
+## 0 5 * * *   /path/mountplexdrive.sh >/dev/null 2>&1
 ##
 ## To unmount the drive use
 ## /path/mountplexdrive unmount
+## More scripts at: https://github.com/ajkis/scripts
+## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
 
+## GLOBAL VARS
 LOGFILE="/home/plex/logs/mountplexdrive.log"
 MPOINT="/mnt/plexdrive/"
 
+## UNMOUNT IF SCRIPT WAS RUN WITH unmount PARAMETER
 if [[ $1 = "unmount" ]]; then
     echo "Unmounting $MPOINT"
     fusermount -uz $MPOINT
     exit
 fi
 
+## CHECK IF MOUNT ALREADY EXIST AND MOUNT IF NOT
 if mountpoint -q $MPOINT ; then
     echo "$MPOINT already mounted"
 else
@@ -24,7 +30,7 @@ else
                        -v 2 &>>$LOGFILE &
 fi
 exit
-## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
+
 ## Default is with minimal options and if needed use aditional flags copy paste them above line: -v 2 &>>$LOGFILE &
 ##        Note: Only lines eg options with - or -- in front
 ##  --chunk-size 5M \
