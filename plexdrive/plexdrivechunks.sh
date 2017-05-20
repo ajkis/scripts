@@ -4,7 +4,7 @@
 ## NOTE: plexdrive support max disk usage for chunks, eg --clear-chunk-max-size=100GB (but if disk get full with other none plexdrive related data this wont help )
 ## Add to plexdrive mount: --clear-chunk-age=730h
 ##          Note: This would keep all downloads for a month before deleting them ( do not use --clear-chunk-max-size so maximum space its always available)
-##
+##                Do not store temp in /dev/shm since its only 50% of ram eg not enough space to keep chunks for 30days
 ## To run script automatically every minute type: crontab -e and andd line bellow (without ##):
 ## * * * * *   /path/plexdrivechunks.sh >/dev/null 2>&1
 ##
@@ -17,10 +17,10 @@ if pidof -o %PPID -x "$0"; then
    exit 1
 fi
 
-LOG=/home/plex/logs/plexdrivechunks.log
-PLEXDRIVETEMP=/home/plex/.plexdrive/temp
-CURDISKSPACE=$(df -k $PLEXDRIVETEMP | tail -1 | awk '{print $4}')
+PLEXDRIVETEMP=/home/plex/.plexdrive/temp # SET IT TO SAME LOCATION AS YOU HAVE IN PLEXDRIVE --temp=//home/plex/.plexdrive/temp
 MINDISKSPACE=1000000 # SET MINIMUM DISK SPACE WHEN ITS BELLOW THE SCRIPT WILL TRIGGER (1GB = 1000000kB)
+CURDISKSPACE=$(df -k $PLEXDRIVETEMP | tail -1 | awk '{print $4}')
+LOG=/home/plex/logs/plexdrivechunks.log
 
 while [[ $CURDISKSPACE<$MINDISKSPACE ]]
 do
