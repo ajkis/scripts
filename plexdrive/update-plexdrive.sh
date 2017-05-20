@@ -14,8 +14,14 @@ PLEXDRIVEMOUNTCMD="/home/plex/scripts/mountplexdrive" # Set path to your plexdri
 PLEXDRIVEEXEC=/usr/bin/plexdrive # Set path to plexdrive executable
 PLEXDRIVEMNT=/mnt/plexdrive # Set path to plexdrive mount
 
-echo "plexdrive updater started, current version"
-plexdrive --version
+PLEXDRIVELATESTVER=$(curl -s https://api.github.com/repos/dweidenfeld/plexdrive/releases/latest | grep 'tag_name' | cut -c 16- | rev | cut -c 3- | rev)
+PLEXDRIVECURVER=$(plexdrive --version)
+
+if [[ $PLEXDRIVELATESTVER == $PLEXDRIVECURVER ]]; then
+    echo "EXIT: Latest version: $PLEXDRIVELATESTVER already installed"
+    exit
+fi
+echo "new plexdrive version: $PLEXDRIVELATESTVER found. Updater started, replacing current version: $PLEXDRIVECURVER"
 
 wget $(curl -s https://api.github.com/repos/dweidenfeld/plexdrive/releases/latest | grep 'browser_' | cut -d\" -f4 | grep plexdrive-linux-amd64) -O /dev/shm/plexdrive-linux-amd64
 if [ "$?" != "0" ]; then
@@ -68,7 +74,4 @@ done
 # START PLEX MEDIA SERVER
 sudo service plexmediaserver start
 sleep 2
-
-echo "plexdrive new version installed"
-plexdrive --version
 exit
