@@ -26,7 +26,7 @@ while [[ $CURDISKSPACE<$MINDISKSPACE ]]
 do
     CURDISKSPACE=$(df -k $PLEXDRIVETEMP | tail -1 | awk '{print $4}')
     if [[ -z "$nochunk" ]]; then
-        find $PLEXDRIVETEMP -mindepth 1 -mmin +1 | head -n 10 |
+        find $PLEXDRIVETEMP -mindepth 1 -mmin +1 –atime +10 | head -n 10 |
         while read chunk; do
                 if [[ -z "$chunk" ]]; then
                     echo "WARNING: Current disk size is ${CURDISKSPACE}kB and bellow ${MINDISKPACE}kB, no chunks available for deletition. EXIT" | tee -a $LOG
