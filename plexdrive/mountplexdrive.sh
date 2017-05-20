@@ -25,7 +25,8 @@ else
 fi
 exit
 ## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
-## Default is with minimal options and if needed use aditional flags by copy paste ( flags have - in front ) above line: -v 2 &>>$LOGFILE &
+## Default is with minimal options and if needed use aditional flags copy paste them above line: -v 2 &>>$LOGFILE &
+##        Note: Only lines eg options with - or -- in front
 ##  --chunk-size 5M \
 ##        The size of each chunk that is downloaded (units: B, K, M, G) (default "5M")
 ##  --clear-chunk-age 30m0s \
