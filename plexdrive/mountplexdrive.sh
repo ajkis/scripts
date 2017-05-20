@@ -4,7 +4,7 @@
 ## @reboot /path/mountplexdrive.sh
 ## 0 5 * * *   /path/mountplexdrive.sh >/dev/null 2>&1
 ##
-## To unmount the drive use
+## To unmount plexdrive use
 ## /path/mountplexdrive unmount
 ## More scripts at: https://github.com/ajkis/scripts
 ## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
