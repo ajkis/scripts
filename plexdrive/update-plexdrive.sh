@@ -15,7 +15,7 @@ PLEXDRIVEEXEC=/usr/bin/plexdrive # Set path to plexdrive executable
 PLEXDRIVEMNT=/mnt/plexdrive # Set path to plexdrive mount
 
 PLEXDRIVELATESTVER=$(curl -s https://api.github.com/repos/dweidenfeld/plexdrive/releases/latest | grep 'tag_name' | cut -c 16- | rev | cut -c 3- | rev)
-PLEXDRIVECURVER=$(plexdrive --version)
+PLEXDRIVECURVER=$($PLEXDRIVEEXEC --version)
 
 if [[ $PLEXDRIVELATESTVER == $PLEXDRIVECURVER ]]; then
     echo "EXIT: Latest version: $PLEXDRIVELATESTVER already installed"
