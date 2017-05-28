@@ -64,14 +64,9 @@ case "$response" in
     ### LIST OF COMMAND TO RUN BEFORE REMOUNTING PLEXDRIVE
     ## eg: sudo service plexmediaserver stop
     echo "Stopping all services" | tee -a $LOGFILE
-    fusermount -uz /mnt/plexdrivecrypt
     fusermount -uz $PLEXDRIVEMNT
-    sudo systemctl stop radarr.service
-    sudo systemctl stop sonarr.service
-    rm -rf /home/plex/.plexdrive/temp/chunks
-    rm -rf /home/plex/.plexdrive/cache
-    mv /home/plex/scripts/cron/local2cloud.cron /home/plex/scripts/cron/local2cloud.cron2
-    mv /home/plex/scripts/cron/cloudmount.cron /home/plex/scripts/cron/cloudmount.cron2
+    rm -rf $PLEXDRIVECONF/temp/chunks #SPECIFY PATH TO TEMP FILE WHERE CHUNKS ARE STORED
+    rm -rf $PLEXDRIVECONF/cache
 
     ### MOVE NEW CACHE FILE
     echo "Moving new plexdrive cache to $PLEXDRIVECONF" | tee -a $LOGFILE
