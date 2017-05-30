@@ -1,14 +1,14 @@
 #!/bin/bash
-## plexdrivefixchunkwarrnings.sh (chmod a+x  plexdrivefixchunkwarrnings.sh)
+## plexdrivefixchunkwarnings.sh (chmod a+x  plexdrivefixchunkwarnings.sh)
 ## This script will read from plexdrive mount log and make folders that plexdrive could not: WARNING: Could not write chunk temp file /xxxx
 ## To run script automatically every minute type: crontab -e and add line bellow (without ##):
-## * * * * *   /path/plexdrivefixchunkwarrnings.sh >/dev/null 2>&1
+## * * * * *   /path/plexdrivefixchunkwarnings.sh >/dev/null 2>&1
 ##
 ## Optionally you can run it more often eg every 15 secnds with cron by adding (do not add the above one then):
-## * * * * * sleep 00; /path/plexdrivefixchunkwarrnings.sh >/dev/null 2>&1
-## * * * * * sleep 15; /path/plexdrivefixchunkwarrnings.sh >/dev/null 2>&1
-## * * * * * sleep 30; /path/plexdrivefixchunkwarrnings.sh >/dev/null 2>&1
-## * * * * * sleep 45; /path/plexdrivefixchunkwarrnings.sh >/dev/null 2>&1
+## * * * * * sleep 00; /path/plexdrivefixchunkwarnings.sh >/dev/null 2>&1
+## * * * * * sleep 15; /path/plexdrivefixchunkwarnings.sh >/dev/null 2>&1
+## * * * * * sleep 30; /path/plexdrivefixchunkwarnings.sh >/dev/null 2>&1
+## * * * * * sleep 45; /path/plexdrivefixchunkwarnings.sh >/dev/null 2>&1
 ## More scripts at: https://github.com/ajkis/scripts
 ## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
 if pidof -o %PPID -x "$0"; then
