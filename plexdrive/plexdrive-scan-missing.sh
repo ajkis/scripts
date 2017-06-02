@@ -40,13 +40,12 @@ do
         filepath=${filepath/$RCLONEMOUNT/$PLEXDRIVEMOUNT}
         tput cup 1 0
         tput el
-        echo "Progress: $counterall files in $(($(date +'%s') - $elapsed)) seconds"
+        echo "Progress: $counterall files in $(($(date +'%s') - $elapsed)) seconds | Missing: $countermissing"
         tput cup 2 0
         tput el
-        echo "Checking: $filepath"
-        echo "Missing: $countermissing"
-        tput cup $(($countermissing + 4)) 0
+        echo -ne "Checking: $filepath"
         if [[ ! -f "$filepath" ]]; then
+            tput cup $(($countermissing + 4)) 0
             countermissing=$(($countermissing + 1))
             echo "Missing on plexdrive: $filepath" | tee -a $LOGFILE
         fi
