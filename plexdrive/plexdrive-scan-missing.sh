@@ -33,10 +33,10 @@ clear
 echo "$(date "+%d.%m.%Y %T") Scan plexdrive for missing files" | tee -a $LOGFILE
 for path in "${PATHS[@]}"
 do
+    counterall=$(($counterall + 1))
     find $path -type f |
     while read filepath
     do
-        counterall=$(($counterall + 1))
         filepath=${filepath/$RCLONEMOUNT/$PLEXDRIVEMOUNT}
         tput cup 1 0
         tput el
