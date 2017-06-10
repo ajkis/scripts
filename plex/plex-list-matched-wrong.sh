@@ -3,7 +3,7 @@
 ## Copy paste URL result in broser and use Plex feature: Fix Matched
 ##
 ## Setup
-## 1. chmod a+x plex-list-matched-wrong.sh
+## 1. chmod a+x plex-matched-wrong.sh
 ## 2. Set correct paths in variables
 ##
 ## More scripts at: https://github.com/ajkis/scripts
@@ -15,6 +15,7 @@ fi
 LOGFILE="/home/plex/logs/pmsmatchwrong.log"
 DB="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db"
 PLEXURL="http://XXX:32400/web/index.html#!/server/XXX/details?key=%2Flibrary%2Fmetadata%2F"
+MOVIESSECTION=2 # SET PLEX SECTION FOR MOVIES
 
 
 if [[ -f $LOGFILE ]]; then
@@ -95,8 +96,8 @@ readarray -t case1 < <(sqlite3 "$DB" "$qcase1")
 readarray -t case2 < <(sqlite3 "$DB" "$qcase2")
 
 echo "POSSIBLY WRONLGY MATCHED MOVIES WHERE TITLE IS NOT UNIQUE" | tee -a $LOGFILE
-echo "One of the results is correct, check based on file name and manually fix second one" | tee -a $LOGFILE
-echo "Copy paste URL in browser and use Fix Match" | tee -a $LOGFILE
+echo "One of the results is correct, check based on file name and manually fix second one"
+echo "Copy paste URL in browser and use Fix Match"
 sqlite3 "$DB" "$query1" |
 
 for result in "${case1[@]}"
@@ -117,5 +118,7 @@ do
     echo "URL: ${PLEXURL}$result" | tee -a $LOGFILE
     echo " " | tee -a $LOGFILE
 done
+
 echo "Finished, all results are logged in: $LOGFILE"
+
 exit
