@@ -15,8 +15,20 @@ fi
 LOGFILE="/home/plex/logs/pmsmatchwrong.log"
 DB="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db"
 PLEXURL="http://XXX:32400/web/index.html#!/server/XXX/details?key=%2Flibrary%2Fmetadata%2F"
-MOVIESSECTION=2 # SET PLEX SECTION FOR MOVIES
+export LD_LIBRARY_PATH=/usr/lib/plexmediaserver
+export PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plexmediaserver/Library/Application\ Support
+MOVIESSECTION=1 # SET PLEX SECTION FOR MOVIES
 
+echo "Plex Libraries"
+$LD_LIBRARY_PATH/Plex\ Media\ Scanner --list
+
+echo "Script movie section setting: $MOVIESSECTION"
+read -n1 -r -p "Press space/enter to continue or any other key to exit..." key
+if [ "$key" != '' ]; then
+    echo " "
+    echo "EXIT: Aborted"
+    exit
+fi
 
 if [[ -f $LOGFILE ]]; then
     rm -f $LOGFILE
