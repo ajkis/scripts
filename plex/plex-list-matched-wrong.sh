@@ -95,8 +95,8 @@ readarray -t case1 < <(sqlite3 "$DB" "$qcase1")
 readarray -t case2 < <(sqlite3 "$DB" "$qcase2")
 
 echo "POSSIBLY WRONLGY MATCHED MOVIES WHERE TITLE IS NOT UNIQUE" | tee -a $LOGFILE
-echo "One of the results is correct, check based on file name and manually fix second one"
-echo "Copy paste URL in browser and use Fix Match"
+echo "One of the results is correct, check based on file name and manually fix second one" | tee -a $LOGFILE
+echo "Copy paste URL in browser and use Fix Match" | tee -a $LOGFILE
 sqlite3 "$DB" "$query1" |
 
 for result in "${case1[@]}"
@@ -108,8 +108,8 @@ do
 done
 echo " " | tee -a $LOGFILE
 
-echo "POSSIBLY WRONLGY MATCHED MOVIES WHERE PLEX TITLE IS NOT PRESENT IN FOLDER OR FILE NAME"
-echo "Copy paste URL in browser and use Fix Match"
+echo "POSSIBLY WRONLGY MATCHED MOVIES WHERE PLEX TITLE IS NOT PRESENT IN FOLDER OR FILE NAME" | tee -a $LOGFILE
+echo "Copy paste URL in browser and use Fix Match" | tee -a $LOGFILE
 for result in "${case2[@]}"
 do
     echo "$result" | tee -a $LOGFILE
