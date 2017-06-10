@@ -14,7 +14,7 @@ if pidof -o %PPID -x "$0"; then
 fi
 LOGFILE="/home/plex/logs/pmsmatchwrong.log"
 DB="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db"
-PLEXURL="http://XXX.net/web/index.html#!/server/XXX/details?key=%2Flibrary%2Fmetadata%2F"
+PLEXURL="http://XXX:32400/web/index.html#!/server/XXX/details?key=%2Flibrary%2Fmetadata%2F"
 
 
 if [[ -f $LOGFILE ]]; then
