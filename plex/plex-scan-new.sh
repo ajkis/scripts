@@ -58,7 +58,7 @@ echo "$(date "+%d.%m.%Y %T") Move & TV folders scanned in $(($(date +'%s') - $st
 echo "$(date "+%d.%m.%Y %T") Setting lastrun for next folder scans" | tee -a "$LOGFILE"
 touch $LASTRUNFILE
 echo "$(date "+%d.%m.%Y %T") Remove duplicates" | tee -a "$LOGFILE"
-sort $FOLDERLISTFILE | uniq | tee $FOLDERLISTFILE
+sort "$FOLDERLISTFILE" | uniq | tee "$FOLDERLISTFILE"
 
 startplexscan=$(date +'%s')
 echo "$(date "+%d.%m.%Y %T") Plex scan started" | tee -a "$LOGFILE"
