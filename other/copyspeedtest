@@ -1,6 +1,8 @@
 #!/bin/bash
-# Requirements pv tool
-# sudo apt install pv
+## Requirements pv tool
+## sudo apt install pv
+## Create test file and upload it to your cloud destination
+## fallocate -l 100M testfile
 
 ## More scripts at: https://github.com/ajkis/scripts
 ## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
@@ -9,7 +11,7 @@ if pidof -o %PPID -x "copyspeedtest"; then
    exit 1
 fi
 
-SOURCE="/mnt/unionfs/testfile"
+SOURCE="/mnt/unionfs/testfile" # SET PATH TO FILE
 DESTINATION="/tmp/copytestfile"
 
 if [[ -f "$DESTINATION" ]]; then
