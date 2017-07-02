@@ -1,6 +1,9 @@
 #!/bin/bash
 # Requirements pv tool
 # sudo apt install pv
+
+## More scripts at: https://github.com/ajkis/scripts
+## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
 if pidof -o %PPID -x "copyspeedtest"; then
    echo "Already running, exiting."
    exit 1
