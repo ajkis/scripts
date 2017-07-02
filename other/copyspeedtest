@@ -1,14 +1,21 @@
 #!/bin/bash
-# Requirements pv tool ( sudo apt install pv )
+# Requirements pv tool
+# sudo apt install pv
 if pidof -o %PPID -x "copyspeedtest"; then
    echo "Already running, exiting."
    exit 1
 fi
 
-SOURCE="/storage/acdcrypt/movies/10 Cloverfield Lane (2016)/10 Cloverfield Lane (2016).mkv"
-DESTINATION="/home/plex/temp/10 Cloverfield Lane (2016).mkv"
+SOURCE="/mnt/unionfs/testfile"
+DESTINATION="/tmp/copytestfile"
 
+if [[ -f "$DESTINATION" ]]; then
+    rm "$DESTINATION"
+fi
+start=$(date +'%s')
 echo "COPY SPEED TEST START"
 echo "|   PROGRESSs   |   RATE   | AVG. RATE |"
 pv --bytes --progress --rate --average-rate --timer --eta "$SOURCE" > "$DESTINATION"
+echo "Finished in $(($(date +'%s') - $start)) seconds"
+rm "$DESTINATION"
 exit
