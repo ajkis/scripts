@@ -17,7 +17,7 @@ if find $FROM* -type f -mmin +15 | read
   then
   echo "$(date "+%d.%m.%Y %T") RCLONE UPLOAD STARTED" | tee -a $LOGFILE
   # MOVE FILES OLDER THAN 15 MINUTES 
-  rclone move --config=/path/rclone.conf $FROM $TO -c --no-traverse --transfers=300 --checkers=300 --delete-after --min-age 15m --log-file=$LOGFILE
+  rclone move --config=/path/rclone.conf $FROM $TO -c --no-traverse --transfers=30 --checkers=300 --delete-after --min-age 15m --log-file=$LOGFILE
   echo "$(date "+%d.%m.%Y %T") RCLONE UPLOAD ENDED" | tee -a $LOGFILE
 fi
 exit
