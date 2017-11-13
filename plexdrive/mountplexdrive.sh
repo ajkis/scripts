@@ -9,6 +9,12 @@
 ## More scripts at: https://github.com/ajkis/scripts
 ## If you find script useful feel free to buy me a beer at https://paypal.me/ajki
 
+## EXIT IF ALREADY RUNNING
+if pidof -o %PPID -x "$0"; then
+   echo "EXIT: Already running"
+   exit 1
+fi
+
 ## GLOBAL VARS
 LOGFILE="/home/plex/logs/mountplexdrive.log"
 MPOINT="/mnt/plexdrive/"
@@ -30,9 +36,9 @@ else
     ## Keep in mind that 1080p stream will need 20Mbit while some scenes can spike to 50/60Mbit.
     /usr/bin/plexdrive $MPOINT \
                    -o allow_other \
-                   --chunk-check-threads=10 \
+                   --chunk-check-threads=20 \
                    --chunk-load-ahead=4 \
-                   --chunk-load-threads=10 \
+                   --chunk-load-threads=20 \
                    --chunk-size=5M \
                    --max-chunks=2000 \
                    --refresh-interval=1m \
