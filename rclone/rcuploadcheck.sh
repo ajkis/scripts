@@ -18,10 +18,9 @@ Remote="gdajki:"
 if [[ ! -f $LogFile ]]; then
     touch $LogFile
 fi
-
 LastState=$(tail -1 $LogFile)
-start=$(date +'%s')
 
+start=$(date +'%s')
 echo "INFO: Checking upload for $Remote"
 dd if=/dev/zero of=$UploadFile count=1024 bs=100 >/dev/null 2>&1
 /usr/bin/rclone move "$UploadFile" $Remote --delete-after --log-level ERROR
