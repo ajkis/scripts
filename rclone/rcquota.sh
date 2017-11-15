@@ -1,6 +1,5 @@
 #!/bin/bash
 ## Show gdrive used quota
-Remote=$1
 LogFile=/dev/shm/rcquota.log
 
 if [ -z $1 ]; then
