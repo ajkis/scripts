@@ -19,19 +19,19 @@ if [[ ! -f $LogFile ]]; then
     touch $LogFile
 fi
 
+LastState=$(tail -1 $LogFile)
 start=$(date +'%s')
+
 echo "INFO: Checking upload for $Remote"
 dd if=/dev/zero of=$UploadFile count=1024 bs=100 >/dev/null 2>&1
 /usr/bin/rclone move "$UploadFile" $Remote --delete-after --log-level ERROR
 if [ $? -eq 0 ]; then
     echo "INFO: Upload successful"
-    LastState=$(tail -1 $LogFile)
     if [[ $LastState == *"upload locked"* ]]; then
         echo "$(date "+%d.%m.%Y %T") $Remote upload unlocked" | tee -a $LogFile
     fi
 else
     echo "INFO: Upload error, drive locked"
-    LastState=$(tail -1 $LogFile)
     if [[ $LastState == *"upload unlocked"* ]]; then
         echo "$(date "+%d.%m.%Y %T") $Remote upload locked" | tee -a $LogFile
     fi
