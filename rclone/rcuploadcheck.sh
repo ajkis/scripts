@@ -31,6 +31,7 @@ if [ $? -eq 0 ]; then
     fi
 else
     echo "INFO: Upload error, drive locked"
+    LastState=$(tail -1 $LogFile)
     if [[ $LastState == *"upload unlocked"* ]]; then
         echo "$(date "+%d.%m.%Y %T") $Remote upload locked" | tee -a $LogFile
     fi
