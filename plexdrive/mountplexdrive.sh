@@ -34,7 +34,7 @@ else
     ## Adjust chunk-check/load threads to match maximum concurrent streams
     ## Do not use losd-ahead bigger then 10.
     ## Keep in mind that 1080p stream will need 20Mbit while some scenes can spike to 50/60Mbit.
-    /usr/bin/plexdrive $MPOINT \
+    /usr/bin/plexdrive mount $MPOINT \
                    -o allow_other \
                    --chunk-check-threads=20 \
                    --chunk-load-ahead=4 \
