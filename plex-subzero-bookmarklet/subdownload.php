@@ -27,7 +27,7 @@ $u=$_GET["u"];
 if (is_hex($id)) {
 	// set up the curl resource
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, "http://XXX/video/subzero/item/".$id."?force=True&X-Plex-Token=YYY");
+	curl_setopt($ch, CURLOPT_URL, "http://XXX/video/subzero/item/".$id."/force?&X-Plex-Token=YYY");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 	$output = curl_exec($ch);
 	echo($output) . PHP_EOL;
