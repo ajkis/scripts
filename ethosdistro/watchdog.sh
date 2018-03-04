@@ -16,6 +16,9 @@
 ### BTC 31qHHFPtR6mqgyhJ1EgMVdZ2WAr7izQQyB
 ### PAYPAL https://paypal.me/ajki
 
+RedEcho(){ echo -e "$(tput setaf 1)$1$(tput sgr0)"; }
+GreenEcho(){ echo -e "$(tput setaf 2)$1$(tput sgr0)"; }
+YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 
 LogFile="/home/ethos/watchdog.log"
 ### EXIT IF WATCHDOG ALREADY RUNNING
@@ -27,7 +30,13 @@ fi
 StatsJson="/var/run/ethos/stats.json"
 ### EXIT IF STATS.JSON IS MISSING
 if [[ ! -f "$StatsJson" ]]; then
-	echo "$(date "+%d.%m.%Y %T") EXIT: stats.json not available yet." | tee -a "$LogFile"
+	echo "$(date "+%d.%m.%Y %T") EXIT: stats.json not available yet.(make sure ethosdistro is ver: 1.3.0+)" | tee -a "$LogFile"
+	exit 1
+fi
+UpTimeSeconds=$(cat /proc/uptime | xargs | cut -d " " -f 1)
+UpTime=$(printf '%dh:%dm:%ds' $((${UpTimeSeconds/.*}/3600)) $((${UpTimeSeconds/.*}%3600/60)) $((${UpTimeSeconds/.*}%60)))
+if [  ${UpTimeSeconds/.*} -lt 300 ]; then
+	echo "EXIT: System booted less then 5 minutes ago.Current running time: $UpTime"
 	exit 1
 fi
 
@@ -42,7 +51,12 @@ if [[ ! -f /dev/shm/restartminercount ]]; then
 	echo "0" > /dev/shm/restartminercount
 fi
 RestartMinerCount=$(cat /dev/shm/restartminercount)
-
+YellowEcho "WATCHDOG.SH STARTED WITH FOLLOWING VALUES:"
+YellowEcho "Minimum Hash Rate: $MinHashRate "
+YellowEcho "Minimum Watts: $MinWatts"
+YellowEcho "Reboot on to many restarts: ${RebootMaxRestarts}/${RestartMinerCount}"
+YellowEcho "OS running for: $UpTime"
+YellowEcho "Miner $Miner running for $MinerTime"
 function RestartMiner() {
 	## COUNT RESTARTS IF MINNER IS RUNNING FOR LESS THEN 1H
 	if [[ $MinerSeconds -lt 3600 ]]; then
@@ -76,8 +90,7 @@ function Json2Array() {
 }
 
 ### SKIP CHECKS IF MINER IS RUNNING LESS THEN 5 MINUTES
-if [[ $MinerSeconds -lt "300"  ]]; then
-
+if [[ $MinerSeconds -gt 300 ]]; then
 	Json2Array miner_hashes 
 	Json2Array watts
 
@@ -85,13 +98,13 @@ if [[ $MinerSeconds -lt "300"  ]]; then
 	for Value in "${miner_hashes[@]}"
 	do
 		if [[ "${miner_hashes[$Index]/.*}" -lt $MinHashRate ]]; then
-			echo "$(date "+%d.%m.%Y %T") RESTART: GPU[$Index] HASH:${miner_hashes[$Index]}.[Miner was running for: $MinerTime]" | tee -a "$LogFile"
+			RedEcho "$(date "+%d.%m.%Y %T") RESTART: GPU[$Index] HASH:${miner_hashes[$Index]}.[Miner was running for: $MinerTime]" | tee -a "$LogFile"
 			RestartMiner
 		elif [[ "${watts[$Index]/.*}" -lt $MinWatts ]]; then
-			echo "$(date "+%d.%m.%Y %T") RESTART: GPU[$Index] WATTS:${watts[$Index]}.[Miner was running for: $MinerTime]" | tee -a "$LogFile"
+			RedEcho "$(date "+%d.%m.%Y %T") RESTART: GPU[$Index] WATTS:${watts[$Index]}.[Miner was running for: $MinerTime]" | tee -a "$LogFile"
 			RestartMiner
 		else
-			echo "STATUS OK: GPU[$Index] HASH:${miner_hashes[$Index]} WATTS:${watts[$Index]}"
+			GreenEcho "STATUS OK: GPU[$Index] HASH:${miner_hashes[$Index]} WATTS:${watts[$Index]}"
 		fi
 	    let Index++
 	done
