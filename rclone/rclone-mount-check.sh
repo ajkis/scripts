@@ -1,6 +1,6 @@
 #!/bin/bash
 # 1. Change paths
-# 2. for mount and log file & create mountchek file.
+# 2. for mount and log file & create mountcheck file.
 # 3. Add to crontab -e (paste the line bellow, without # in front)
 # * * * * *  /home/plex/scripts/rclone-mount-check.sh >/dev/null 2>&1
 # Make script executable with: chmod a+x /home/plex/scripts/rclone-mount-check.sh
