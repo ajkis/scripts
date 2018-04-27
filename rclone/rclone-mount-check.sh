@@ -1,6 +1,6 @@
 #!/bin/bash
 # 1. Change paths
-# 2. for mount and log file & create mountchek file.
+# 2. for mount and log file & create mountcheck file (echo "mountfile" > /path/to/mount/")
 # 3. Add to crontab -e (paste the line bellow, without # in front)
 # * * * * *  /home/plex/scripts/rclone-mount-check.sh >/dev/null 2>&1
 # Make script executable with: chmod a+x /home/plex/scripts/rclone-mount-check.sh
@@ -8,7 +8,8 @@
 LOGFILE="/home/plex/logs/rclone-mount-check.log"
 RCLONEREMOTE="acdcrypt:"
 MPOINT="/home/plex/acdcrypt"
-CHECKFILEPATH="mountcheck"
+CHECKFILE="mountcheck"
+RCLONE="/usr/bin/rclone"
 
 if pidof -o %PPID -x "$0"; then
     echo "$(date "+%d.%m.%Y %T") EXIT: Already running." | tee -a "$LOGFILE"
@@ -23,7 +24,7 @@ else
     # Unmount before remounting
     while mount | grep "on ${MPOINT} type" > /dev/null
     do
-        echo "($wi) Unmounting $mount"
+        echo "$(date "+%d.%m.%Y %T") INFO: Unmounting $mount"
         fusermount -uz $MPOINT | tee -a "$LOGFILE"
         cu=$(($cu + 1))
         if [ "$cu" -ge 5 ];then
@@ -33,7 +34,7 @@ else
         fi
         sleep 1
     done
-    rclone mount \
+    $RCLONE mount \
         --read-only \
         --allow-non-empty \
         --allow-other \
@@ -46,7 +47,7 @@ else
 
     while ! mount | grep "on ${MPOINT} type" > /dev/null
     do
-        echo "($wi) Waiting for mount $mount"
+        echo "$(date "+%d.%m.%Y %T") INFO: Waiting for mount $mount"
         c=$(($c + 1))
         if [ "$c" -ge 4 ] ; then break ; fi
         sleep 1
