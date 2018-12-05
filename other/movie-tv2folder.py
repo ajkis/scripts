@@ -12,6 +12,7 @@
 #     Movie Title (2017) 1080p.mkv
 #     Movie Title (2017) anything else.*
 #     Movie Title (2017).*
+#     Movie.Title.2017.*
 #     Movie Title.mkv  -->  **would not be moved, since missing (year)**
 #
 #   Series: (scans 2 folders deep)
@@ -81,10 +82,10 @@ def do_it(src_path, dst_path, depth):
                 continue
 
             #movies
-            if depth == 0:
-                r = re.match("^(.+?\\([0-9]{4}\\)).*", name, re.I)
+            if depth == 0: 
+                r = re.match("^(.+?)\W(\d{4})", name, re.I) #adds ability to see movies files split by periods (.) versus just spaces and parenthesis 
                 if r:
-                    dst_pathname = os.path.join(os.path.join(dst_path, str(r.group(1))), name)
+                    dst_pathname = os.path.join(os.path.join(dst_path, str(r.group(1).replace(".", "")).strip()+" ("+str(r.group(2))+")"), name)
                     print("files2folders.py: movie: " + pathname + " -> " + dst_pathname)
                     my_rename(pathname, dst_pathname)
                     continue
@@ -97,6 +98,5 @@ def do_it(src_path, dst_path, depth):
                 do_it(os.path.join(src_path, name), os.path.join(dst_path, name), depth + 1)
 
         break; #abort recursion in os.walk()
-
 
 do_it(src_root_path, dst_root_path, 0)
