@@ -76,7 +76,7 @@ echo "${result:11} directories marked as deleted" | tee -a $logfile
 query="select count(*) from metadata_items meta \
                         join media_items media on media.metadata_item_id = meta.id \
                         join media_parts part on part.media_item_id = media.id \
-                        where part.extra_data not like '%deepAnalysisVersion=2%' \
+                        where part.extra_data not like '%deepAnalysisDate%' \
                         and meta.metadata_type in (1, 4, 12) and part.file != '';"
 result=$(sqlite3 -header -line "$db" "$query")
 echo "${result:11} files missing deep analyzation info." | tee -a $logfile
